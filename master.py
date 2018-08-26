@@ -12,7 +12,7 @@ reEnd = vlc.MediaPlayer("rewind_end.wav")
 
 
 
-song = vlc.MediaPlayer("s2.mp3")
+song = vlc.MediaPlayer("s3.mp3")
 
 def BeginScrub():
   endSong=time.time()
@@ -56,15 +56,7 @@ def unPause(pauseTime):
   song.play()
   return(time.time() - (pauseTime - beginSong))
   
-
-
-beginSong = time.time()
-song.play()
-while True:
-  #song.play()
-
-  continued = input('Major: ')
-  if continued =='r' or continued == 'f':
+def Scrub(beginSong):
     endSong  = BeginScrub()
     dud_await_input = input('Minor: ')
 
@@ -74,21 +66,22 @@ while True:
     elif continued == 'f':
       beginSong = EndForward(beginSong, endSong)
 
+beginSong = time.time()
+song.play()
+while True:
+  #song.play()
+
+  continued = input('Major: ')
+  if continued =='r' or continued == 'f':
+    Scrub(beginSong)
+
   elif continued == 'p':
     pauseTime = Pause()
     continued = input('Paused: ')
     beginSong = unPause(pauseTime)
     time.sleep(0.001)
     if continued =='r' or continued == 'f':
-      song.pause()
-      endSong  = BeginScrub()
-      dud_await_input = input('Minor: ')
-
-      if continued == 'r':
-        beginSong = EndRewind(beginSong, endSong)
-
-      elif continued == 'f':
-        beginSong = EndForward(beginSong, endSong)   
+      Scrub(beginSong)  
       
 
 #note to solve the lag time between pressing buttons the middle audio file could be rendered with 0.317 second gap at start
