@@ -52,13 +52,14 @@ def Pause():
   pauseTime = time.time()
   return pauseTime
 
-def unPause(pauseTime):
+def unPause(pauseTime, beginSong):
   song.play()
   return(time.time() - (pauseTime - beginSong))
   
-def Scrub(beginSong):
+def Scrub(beginSong,continued):
     endSong  = BeginScrub()
     dud_await_input = input('Minor: ')
+
 
     if continued == 'r':
       beginSong = EndRewind(beginSong, endSong)
@@ -66,24 +67,40 @@ def Scrub(beginSong):
     elif continued == 'f':
       beginSong = EndForward(beginSong, endSong)
 
-beginSong = time.time()
-song.play()
-while True:
-  #song.play()
 
-  continued = input('Major: ')
-  if continued =='r' or continued == 'f':
-    Scrub(beginSong)
+def MainLoop():
+  continued = input('Begin: ')
+  if continued == 'u':
+    beginSong = time.time()
+    song.play()
+    while True:
+      #song.play()
 
-  elif continued == 'p':
-    pauseTime = Pause()
-    continued = input('Paused: ')
-    beginSong = unPause(pauseTime)
-    time.sleep(0.001)
-    if continued =='r' or continued == 'f':
-      Scrub(beginSong)  
+      continued = input('Major: ')
+      if continued =='r' or continued == 'f':
+        Scrub(beginSong,continued)
+
+      elif continued == 'p':
+        pauseTime = Pause()
+        paused = True
+        while paused == True:
+          continued = input('Paused: ')
+          if continued == 'u':
+            paused = False
+            beginSong = unPause(pauseTime,beginSong)
+          elif continued =='r' or continued == 'f':
+            paused = False
+            beginSong = unPause(pauseTime,beginSong)
+            time.sleep(0.001)
+            Scrub(beginSong,continued)
+      elif continued== 's':
+        song.stop()
+        MainLoop()
+  MainLoop()
+
+MainLoop()
       
 
 #note to solve the lag time between pressing buttons the middle audio file could be rendered with 0.317 second gap at start
 #handling for blanks
-#playist of music
+#playist of music (or just one long ass file)
