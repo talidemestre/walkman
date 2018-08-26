@@ -53,13 +53,15 @@ def Pause():
   return pauseTime
 
 def unPause(pauseTime):
+  song.play()
   return(time.time() - (pauseTime - beginSong))
   
 
 
 beginSong = time.time()
+song.play()
 while True:
-  song.play()
+  #song.play()
 
   continued = input('Major: ')
   if continued =='r' or continued == 'f':
@@ -76,8 +78,9 @@ while True:
     pauseTime = Pause()
     continued = input('Paused: ')
     beginSong = unPause(pauseTime)
-    song.play()
+    time.sleep(0.001)
     if continued =='r' or continued == 'f':
+      song.pause()
       endSong  = BeginScrub()
       dud_await_input = input('Minor: ')
 
@@ -85,7 +88,7 @@ while True:
         beginSong = EndRewind(beginSong, endSong)
 
       elif continued == 'f':
-        beginSong = EndForward(beginSong, endSong)     
+        beginSong = EndForward(beginSong, endSong)   
       
 
 #note to solve the lag time between pressing buttons the middle audio file could be rendered with 0.317 second gap at start
