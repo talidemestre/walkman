@@ -31,9 +31,9 @@ def EndRewind(beginSong, endSong):
   time.sleep(0.5)  
   reEnd.stop()
   newTime = time.time() - endSong
-  song.set_time(int((endSong-beginSong)*1000))# - int(newTime*3000))
+  song.set_time(int((endSong-beginSong)*1000) - int(newTime*3000))
   song.play()
-  return(time.time() - (endSong-beginSong))# + (newTime))
+  return(time.time() - (endSong-beginSong) + (newTime))
 
 
 beginSong = time.time()
